@@ -13,7 +13,7 @@ public class Main {
                 BigInteger value;
                 value = scanner.nextBigInteger();
                 KeyGen keyGen = new KeyGen();
-                System.out.println("e  is ->" + keyGen.e);
+                System.out.println("e  is ->" + KeyGen.E);
                 BigInteger cipherText = keyGen.encrypt(value);
                 System.out.println("\nThe Encrypted cipher is \n" + cipherText);
             } else if (a == 2) {
@@ -21,11 +21,11 @@ public class Main {
                 BigInteger value;
                 value = scanner.nextBigInteger();
                 KeyGen keyGen = new KeyGen();
-                System.out.println("e  is ->" + keyGen.e);
+                System.out.println("e  is ->" + KeyGen.E);
                 BigInteger decryptedMessage = keyGen.decrypt(value);
                 System.out.println("\nThe decrypted message is\n" + decryptedMessage);
             }
-        } while (a == 3);
+        } while (a != 3);
     }
 }
 

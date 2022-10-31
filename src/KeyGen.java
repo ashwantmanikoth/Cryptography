@@ -16,22 +16,17 @@ public class KeyGen {
             "0756379548228165433329469393054349178035979985630084130180487031241256763672337355770" +
             "0882499622073341225199446003974972311496703259471182056856143760293363135470539860065" +
             "760306974196552067736902898897585691");
-    public BigInteger phi,d,e,n;
-    KeyGen (){
-        n= p1.multiply(q1);
+    public static BigInteger E;
+    public BigInteger phi, d, n;
+
+    KeyGen() {
+        n = p1.multiply(q1);
         phi = (p1.subtract(BigInteger.valueOf(1))).multiply(q1.subtract(BigInteger.valueOf(1)));
-        e = getGcd();//random generated
-//        if(phi.gcd(e).equals(BigInteger.ONE)){
-//            System.out.println("returns 1");
-//        }
-
-        //public key pk = (e, n)
-        //private key sk = (d, p, q)
-        //        e*d mod(phi)=1
-        //        d=e.modinv(phi)
-        d =e.modInverse(phi);
-        System.out.println("value of d ->"+d);
-
+        if (E == null) {
+            E = getGcd();//random generated and stored
+        }
+        d = E.modInverse(phi);
+//        System.out.println("value of d ->" + d);
     }
 
     private BigInteger getGcd() {
@@ -41,41 +36,30 @@ public class KeyGen {
         }
         return counter;
     }
-    BigInteger encrypt(BigInteger m){
+
+    BigInteger encrypt(BigInteger m) {
 //        message text m
 //        c = m^e mod n     c = m.modpow(e,n)
-
-        BigInteger c ;
-
-        System.out.println("value of m ->"+m);
-        System.out.println("value of e ->"+e);
-        System.out.println("value of phi ->"+phi);
-
-
-        c = m.modPow(e,n);
-
+//        System.out.println("value of m ->" + m);
+//        System.out.println("value of e ->" + E);
+//        System.out.println("value of phi ->" + phi);
+        BigInteger c;
+        c = m.modPow(E, n);
         return c;
     }
 
-    public BigInteger decrypt(BigInteger c){
+    public BigInteger decrypt(BigInteger c) {
 //        m = c^d mod phi
-
 //        c.modpow(d,phi)
-        BigInteger m ;
-        System.out.println("value of c ->"+c);
-        System.out.println("value of d ->"+d);
-        System.out.println("value of phi ->"+phi);
+        BigInteger m;
+        System.out.println("value of c ->" + c);
+        System.out.println("value of d ->" + d);
+        System.out.println("value of phi ->" + phi);
         m = c.modPow(d, n);
-        System.out.println("decrypted cipher is ->"+m);
-
         return m;
 
 
     }
-
-
-
-
 
 
 }
