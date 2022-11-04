@@ -1,9 +1,11 @@
+package Question2;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
 
-public class KeyGen {
+public class KeyGenCRT {
     BigInteger p1 = new BigInteger("1921191698199047261893632290862186398687698714631732117547745963615695356147500873387" +
             "0517275438245830106443145241548501528064000686696553079813968930084003413592173929258" +
             "2395455385590595228930014155403832377127878058572486689214755030290122100917986244014" +
@@ -19,11 +21,15 @@ public class KeyGen {
     public static BigInteger E;
     public BigInteger phi, d, n;
 
-    KeyGen() {
+    KeyGenCRT() {
         n = p1.multiply(q1);
         phi = (p1.subtract(BigInteger.valueOf(1))).multiply(q1.subtract(BigInteger.valueOf(1)));
         if (E == null) {
+            System.out.println("e not existing");
             E = getGcd();//random generated and stored
+        } else {
+            System.out.println("e existing" + E);
+
         }
         d = E.modInverse(phi);
 //        System.out.println("value of d ->" + d);
@@ -38,25 +44,28 @@ public class KeyGen {
     }
 
     BigInteger encrypt(BigInteger m) {
-//        message text m
-//        c = m^e mod n     c = m.modpow(e,n)
-//        System.out.println("value of m ->" + m);
-//        System.out.println("value of e ->" + E);
-//        System.out.println("value of phi ->" + phi);
         BigInteger c;
         c = m.modPow(E, n);
         return c;
     }
 
-    public BigInteger decrypt(BigInteger cipherText) {
-//        m = cipherText^d mod phi
-//        cipherText.modpow(d,phi)
-        BigInteger m;
-        System.out.println("value of cipherText ->" + cipherText);
-        System.out.println("value of d ->" + d);
-        System.out.println("value of phi ->" + phi);
-        m = cipherText.modPow(d, n);
-        return m;
+    public BigInteger decrypt(BigInteger c) {
+//        m = c^d mod phi
+//        c.modpow(d,phi)
+        BigInteger x1, x2;
+        BigInteger p2, q2, dp, dq, cp, cq, mp, mq, message;
+        q2 = q1.modInverse(p1);
+        dp = d.mod(p1.subtract(BigInteger.ONE));
+        cp = c.mod(p1);
+        mp = cp.modPow(dp, p1);
+
+        p2 = p1.modInverse(q1);
+        dq = d.mod(q1.subtract(BigInteger.ONE));
+        cq = c.mod(q1);
+        mq = cq.modPow(dq, q1);
+
+        message= mp.multiply(q1).multiply(q2).add(mq.multiply(p1).multiply(p2)).mod(n);
+        return message;
 
 
     }

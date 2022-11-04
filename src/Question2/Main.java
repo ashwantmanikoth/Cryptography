@@ -1,3 +1,5 @@
+package Question2;
+
 import java.math.BigInteger;
 import java.util.Scanner;
 
@@ -12,17 +14,17 @@ public class Main {
                 System.out.println("\nEnter the message which needs to be encrypted\n");
                 BigInteger value;
                 value = scanner.nextBigInteger();
-                KeyGen keyGen = new KeyGen();
-                System.out.println("e  is ->" + KeyGen.E);
-                BigInteger cipherText = keyGen.encrypt(value);
+                KeyGenCRT KeyGenCRT = new KeyGenCRT();
+                System.out.println("e  is ->" + KeyGenCRT.E);
+                BigInteger cipherText = KeyGenCRT.encrypt(value);
                 System.out.println("\nThe Encrypted cipher is \n" + cipherText);
             } else if (a == 2) {
                 System.out.println("\nEnter the cipher text which needs to be decrypted\n");
-                BigInteger cipherText;
-                cipherText = scanner.nextBigInteger();
-                KeyGen keyGen = new KeyGen();
-                System.out.println("e  is ->" + KeyGen.E);
-                BigInteger decryptedMessage = keyGen.decrypt(cipherText);
+                BigInteger value;
+                value = scanner.nextBigInteger();
+                KeyGenCRT KeyGenCRT = new KeyGenCRT();
+                System.out.println("e  is ->" + KeyGenCRT.E);
+                BigInteger decryptedMessage = KeyGenCRT.decrypt(value);
                 System.out.println("\nThe decrypted message is\n" + decryptedMessage);
             }
         } while (a != 3);
